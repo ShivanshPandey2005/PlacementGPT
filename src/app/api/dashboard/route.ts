@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import { connectDB, Interview, mockDb } from "@/lib/db";
+import mongoose from "mongoose";
 
 // Helper to format Date into clean Month-Day strings
 function formatDate(dateInput: Date) {
@@ -26,6 +27,19 @@ export async function GET() {
 
     const userId = payload.userId;
     const hasMongo = await connectDB();
+
+    // Validate MongoDB ObjectId to prevent CastErrors from previous sandbox sessions
+    if (hasMongo && !mongoose.Types.ObjectId.isValid(userId)) {
+      const response = NextResponse.json({ error: "Invalid session token format" }, { status: 401 });
+      response.cookies.set({
+        name: "token",
+        value: "",
+        httpOnly: true,
+        expires: new Date(0),
+        path: "/"
+      });
+      return response;
+    }
 
     let interviews = [];
 

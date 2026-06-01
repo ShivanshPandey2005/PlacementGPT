@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import { connectDB, User, mockDb } from "@/lib/db";
+import mongoose from "mongoose";
 
 export async function GET() {
   try {
@@ -24,7 +25,22 @@ export async function GET() {
       );
     }
 
+    const userId = payload.userId;
     const hasMongo = await connectDB();
+
+    // Validate MongoDB ObjectId to prevent CastErrors from sandbox mock sessions
+    if (hasMongo && !mongoose.Types.ObjectId.isValid(userId)) {
+      const response = NextResponse.json({ error: "Invalid session token format" }, { status: 401 });
+      response.cookies.set({
+        name: "token",
+        value: "",
+        httpOnly: true,
+        expires: new Date(0),
+        path: "/"
+      });
+      return response;
+    }
+
     let userData = null;
 
     if (hasMongo) {

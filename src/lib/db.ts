@@ -26,8 +26,11 @@ if (!global.mockDb) {
 
 export const mockDb = global.mockDb;
 
+// Disable command buffering globally so queries fail fast instead of hanging when disconnected
+mongoose.set("bufferCommands", false);
+
 export async function connectDB() {
-  if (mongoose.connection.readyState >= 1) {
+  if (mongoose.connection.readyState === 1) {
     return true;
   }
 
@@ -37,7 +40,9 @@ export async function connectDB() {
   }
 
   try {
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 3000, // Timeout after 3 seconds instead of 30 seconds
+    });
     console.log("🔌 Connected to MongoDB successfully!");
     return true;
   } catch (error) {

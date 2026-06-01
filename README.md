@@ -1,6 +1,11 @@
 # PlacementGPT - AI Interview Coach 🚀
 
-PlacementGPT is a modern, premium SaaS web application designed to help job seekers ace their technical and behavioral interviews. Powered by **Next.js 15**, **Gemini AI**, **TypeScript**, **Tailwind CSS**, and **MongoDB**, this sandbox offers an immersive, interactive mock interview experience, instant 5-axis grading, secure PDF resume ATS audits, personalized weekly study roadmaps, and an elite Product Manager portfolio case study route.
+<div align="center">
+
+[![Vercel Deploy](https://img.shields.io/badge/Live%20Demo-Active-violet?style=for-the-badge&logo=vercel&logoColor=white&color=6366f1)](https://YOUR-VERCEL-DEPLOYMENT-URL.vercel.app)
+[![GitHub License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&color=475569)](https://github.com/ShivanshPandey2005/AI_Interview_Coach)
+
+</div>
 
 ---
 
