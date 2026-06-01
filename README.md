@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PlacementGPT - AI Interview Coach 🚀
 
-## Getting Started
+PlacementGPT is a modern, premium SaaS web application designed to help job seekers ace their technical and behavioral interviews. Powered by **Next.js 15**, **Gemini AI**, **TypeScript**, **Tailwind CSS**, and **MongoDB**, this sandbox offers an immersive, interactive mock interview experience, instant 5-axis grading, secure PDF resume ATS audits, personalized weekly study roadmaps, and an elite Product Manager portfolio case study route.
 
-First, run the development server:
+---
 
+## ✨ Core Product Modules
+
+### 🔐 1. Complete Secure Authentication
+- **Edge-Safe Session middleware**: Inspects HTTP-only cookies using edge-compatible JWT decodes to protect all private portals (`/dashboard`, `/interview`, `/resume`, `/roadmap`, `/history`).
+- **Cryptographic Security**: Password hashing with `bcryptjs` and edge-safe Web Crypto HMAC SHA-256 signatures.
+- **Route Toggling**: Automatically redirects authenticated sessions away from `/login` or `/signup` straight to the `/dashboard`.
+
+### 📊 2. Dynamic Performance Analytics Dashboard
+- **Executive Metrics**: Four glowing stat cards tracking *Total mock runs*, *Average Score*, *Personal Best*, and *Performance Drift* (comparison index).
+- **Progress charts**: Chronological Area progress graphs powered by `recharts` with beautiful violet gradients, linear animations, and dynamic tooltips.
+- **Recent sessions**: Quick-access listing tables with score colored indicators routing straight to graded scorecards.
+
+### 💬 3. AI Mock Interview & Multidimensional Grading
+- **Custom Setup**: Candidates customize parameters by choosing a **Role** (text input), **Difficulty** (Easy, Medium, Hard), and **Interview Style** (HR, Technical, or Behavioral).
+- **Simulated Dialogue**: Displays one question at a time inside a premium glassmorphic card with a step-by-step progress meter and an active session timer.
+- **5-Axis Evaluator**: Gemini AI audits completed transcripts across five key metrics (Technical Accuracy, Communication, Relevance, Confidence, and Logic) returning:
+  - Granular scores out of 10 for each question.
+  - Bulleted **Strengths** and **Areas of Improvement** per answer.
+  - Custom descriptive critiques.
+  - A highly professional, recommended **Better Sample Answer** comparison.
+- **Report card URL (`/interview/[id]`)**: Dynamic saved endpoints to bookmark, review, or share evaluations.
+
+### 📄 4. Secure PDF Resume ATS Auditor
+- **Upload Dragzone**: drag-and-drop PDF upload uploader featuring file progress tracking and validation guards.
+- **Resilient Parsing**: Server-side binary stream parsing with ASCII fallbacks to prevent runtime crashes.
+- **ATS compatibility ring**: Circular SVG progress gauge auditing keywords, layouts, summary feedback, and growth tips.
+
+### 🗺️ 5. Skill Gap Analyzer & Weekly Training Roadmap
+- **Holistic Skills Audit**: Combines the user's *parsed resume missing skills* and *latest mock interview weaknesses* to compile an prioritized missing skills scoreboard.
+- **Chronological timeline checklist**: Stateful, weeks-based learning timelines (Weeks 1 to 4). Clicking a week expands it, revealing goals, suggest core topics, and actionable checkbox tasks (which pop progress toast notifications on completion!).
+
+### 💼 6. Product Manager Case Study Portfolio Page
+- A dedicated route (`/case-study`) designed to look like an elite PM portfolio project of PlacementGPT itself, showcasing:
+  - **Problem Statement** vs **Vision** with stress/delay stats.
+  - **User Personas**: Beautiful profiling cards for Shiva (technical focus) and Anya (behavioral focus).
+  - **User Journey Map**: 5-step grid detailing thoughts, pain points, and actions from discovery to landing the job.
+  - **Competitor comparison matrix**: Comparative tables indexing variables across LeetCode, Interviewing.io, MockMate, and PlacementGPT.
+  - **RICE Prioritization Framework**: Reach, Impact, Confidence, and Effort prioritizing scores for MVP lockouts.
+  - **KPIs & Funnel Metrics**: North Star Metric (Weekly Active Graded Sessions) and activation metrics.
+  - **Product Roadmap**: "Now / Next / Later" visual Gantt charts.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Framework**: [Next.js 15 / 16 (App Router)](https://nextjs.org/)
+- **Compiler**: [Turbopack](https://nextjs.org/docs/app/api-reference/turbopack)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styles**: [Tailwind CSS v4 (Glassmorphism & Glowing backdrops)](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Charts**: [Recharts](https://recharts.org/)
+- **Database**: [MongoDB / Mongoose](https://mongoosejs.com/)
+- **Generative Model**: [Google Gemini AI SDK (`@google/generative-ai`)](https://ai.google.dev/)
+- **PDF Parser**: [pdf-parse](https://www.npmjs.com/package/pdf-parse)
+- **Authentication**: JWT cookies with edge-compatible Web Crypto
+
+---
+
+## 🌟 Resilient Sandbox Mode (Zero-Config Testing)
+
+PlacementGPT is built with high-fidelity, resilient developer backups:
+- If no `MONGODB_URI` or `GEMINI_API_KEY` are defined in the environment variables, the application **automatically switches to a beautiful mock sandbox mode**.
+- The dashboard pre-populates with realistic historical scores and Area charts, the mock interview generates customized role questions, the PDF resume scanner returns ATS scores, and the roadmap compiles timelines instantly!
+- This ensures the application is **fully interactive and auditable out-of-the-box** immediately upon booting local servers.
+
+---
+
+## 💻 Developer Installation Guide
+
+### 1. Clone & Setup
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone https://github.com/ShivanshPandey2005/AI_Interview_Coach.git
+cd AI_Interview_Coach
+
+# Install node dependencies
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Setup
+Copy the example file to `.env.local` and add your secrets to unlock live integrations:
+```bash
+cp .env.example .env.local
+```
+Inside `.env.local`:
+```env
+# MongoDB Atlas Database URI (Optional - sandbox fallback active)
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/placementgpt
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Google AI Studio API Key (Optional - sandbox fallback active)
+GEMINI_API_KEY=AIzaSyD-xxxxxxxxxxxxxxxxxxxxxxxxxx
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# JWT secret phrase
+JWT_SECRET=placement-gpt-super-secret-key-2026
+```
 
-## Learn More
+### 3. Run Dev Server
+```bash
+npm run dev
+```
+Open [http://localhost:3001](http://localhost:3001) in your browser to evaluate the portal!
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Build Production Bundle
+Verify TypeScript validation and Turbopack page generation:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Deployment on Vercel
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+PlacementGPT is fully optimized for **1-click deployments on Vercel**:
+1. Connect your GitHub repository to Vercel.
+2. Under **Environment Variables**, add:
+   - `MONGODB_URI`
+   - `GEMINI_API_KEY`
+   - `JWT_SECRET`
+3. Click **Deploy**. Vercel will compile and host the app statically/dynamically on the Edge runtime seamlessly!
